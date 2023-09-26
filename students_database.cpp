@@ -111,6 +111,8 @@ int main () {
             std::cout << "\n\033[1;37mChoose operation ('c' - create a new record, 'r' - list of records, 'u' - update a record, 'd' - delete a record, 'q' - exit): \033[0m";
             std::cin >> operation;
             
+            system("clear");
+            
             switch (operation) {
                 case 'r': {
                     vector<string> data;
@@ -123,7 +125,7 @@ int main () {
                     
                 case 'c': {
                     string entered_data;
-                    std::cout << "> ";
+                    std::cout << "Create record with data: ";
                     std::getline(std::cin >> ws, entered_data);
                     
                     db.save_data(entered_data);
