@@ -114,15 +114,6 @@ int main () {
             system("clear");
             
             switch (operation) {
-                case 'r': {
-                    vector<string> data;
-                    
-                    db.read_data(data);
-                    print_table(data);
-                    
-                    break;
-                }
-                    
                 case 'c': {
                     string entered_data;
                     std::cout << "Create record with data: ";
@@ -134,26 +125,11 @@ int main () {
                     break;
                 }
                     
-                case 'd': {
+                case 'r': {
                     vector<string> data;
-                    int delete_index;
                     
                     db.read_data(data);
-                    
-                    std::cout << "Enter index of record you want to delete: ";
-                    std::cin >> delete_index;
-                    
-                    // Перевіряємо, чи даний індекс існує
-                    if (delete_index >= 0 && delete_index < data.size()) {
-                        // Видаляємо елемент за вказаним індексом
-                        data.erase(data.begin() + delete_index);
-                        successful_message("Element at index " + to_string(delete_index) + " has been deleted.");
-                    } else {
-                        info_message("Invalid index.");
-                    }
-                    
-                    db.update_data(data); // Оноволюємо дані БД
-                    print_table(data); // Виводимо нову таблицю записів
+                    print_table(data);
                     
                     break;
                 }
@@ -163,6 +139,7 @@ int main () {
                     int update_index;
                     
                     db.read_data(data);
+                    print_table(data);
                     
                     std::cout << "Enter index of record you want to update: ";
                     std::cin >> update_index;
@@ -170,12 +147,14 @@ int main () {
                     // Перевіряємо, чи даний індекс існує
                     if (update_index >= 0 && update_index < data.size()) {
                         string entered_data;
-                        std::cout << "> ";
-                        std::getline(std::cin >> ws, entered_data);
-                        
                         string old_data = data[update_index];
                         
+                        std::cout << "Update '" << old_data << "' to: ";
+                        std::getline(std::cin >> ws, entered_data);
+                        
                         data[update_index] = entered_data;
+                        
+                        system("clear");
                         
                         successful_message("Element at index " + to_string(update_index) + " has been updated from '" + old_data + "' to '" + entered_data + "'.");
                     } else {
@@ -184,6 +163,32 @@ int main () {
                     
                     db.update_data(data); // Оноволюємо дані БД
                     print_table_with_cursor(data, update_index, "Updated"); // Виводимо нову таблицю записів
+                    
+                    break;
+                }
+                    
+                case 'd': {
+                    vector<string> data;
+                    int delete_index;
+                    
+                    db.read_data(data);
+                    print_table(data);
+                    
+                    std::cout << "Enter index of record you want to delete: ";
+                    std::cin >> delete_index;
+                    
+                    // Перевіряємо, чи даний індекс існує
+                    if (delete_index >= 0 && delete_index < data.size()) {
+                        // Видаляємо елемент за вказаним індексом
+                        data.erase(data.begin() + delete_index);
+                        system("clear");
+                        successful_message("Element at index " + to_string(delete_index) + " has been deleted.");
+                    } else {
+                        info_message("Invalid index.");
+                    }
+                    
+                    db.update_data(data); // Оноволюємо дані БД
+                    print_table(data); // Виводимо нову таблицю записів
                     
                     break;
                 }
